@@ -1,0 +1,34 @@
+V "GNAT Lib v10"
+P ZX
+
+RN
+RV NO_RECURSION
+RV SPARK_05
+
+U recursive%b		recursive.adb		c434da94 NE OO PK
+
+U recursive%s		recursive.ads		3980ca52 EE NE OO PK
+
+D recursive.ads		20240305141019 3980ca52 recursive%s
+D recursive.adb		20240305141039 fdb410c6 recursive%b
+D system.ads		20230707070819 4635ec04 system%s
+G a e
+G c Z s b [factorial recursive 3 14 none]
+G c Z s b [gcd recursive 5 14 none]
+G c Z s b [diophantine recursive 7 15 none]
+X 1 recursive.ads
+1K9*Recursive 9l5 9e14 2|1b14 38l5 38t14
+3V14*Factorial{integer} 3>24 2|3b14 6s24 10l9 10t18
+3i24 N{integer} 2|3b24 5r12 6r20 6r34
+5V14*GCD{integer} 5>18 5>21 2|12b14 15s20 19l9 19t12 24s19
+5i18 A{integer} 2|12b18 15r27 17r20
+5i21 B{integer} 2|12b21 14r12 15r24 15r33
+7U15*Diophantine 7>27 7>30 7>33 7<46 7<49 2|21b15 31s13 36l9 36t20
+7i27 A{integer} 2|21b27 24r23 27r15 31r28 33r24
+7i30 B{integer} 2|21b30 24r26 27r21 29r22 31r25 31r34 33r28
+7i33 C{integer} 2|21b33 24r13 29r18 31r37
+7i46 X{integer} 2|21b46 25m13 28m13 31m40 33r18 34m13
+7i49 Y{integer} 2|21b49 26m13 29m13 31m43 32r21 33m13 33r33
+X 2 recursive.adb
+22i5 Temp{integer} 32m13 34r18
+
