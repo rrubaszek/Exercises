@@ -1,0 +1,6 @@
+project Wrapper is
+
+    for Languages use ("ada", "c");
+    for Main use ("ada_wrapper.adb");
+
+end Wrapper;
