@@ -1,0 +1,9 @@
+gcc -c c_wrapper.c
+
+gnatmake -c recursive.adb 
+
+gnatbind -n recursive.ali
+
+gnatlink recursive.ali c_wrapper.o -o wrapper_exec
+
+./wrapper_exec
