@@ -1,0 +1,3 @@
+gcc -o c_wrapper.c
+fpc -Cg recursive.pas/iterative.pas 
+gcc -o test_wrapper c_wrapper.o recursive/iterative.o
