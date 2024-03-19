@@ -1,18 +1,29 @@
-{ fpc hello.pas }
+{ fpc test.pas }
 
 program test;
-uses diophantine_lib;
+uses iterative, recursive;
 
 var
-  number, result: Integer;
+  number, a, b, c, d, e: Integer;
+  x, y: Integer;
 
 begin
 
   writeln('Enter a number to calculate factorial: ');
   Readln(number);
+  writeln('Enter two numbers to calculate gcd: ');
+  Readln(a, b);
+  writeln('Enter three coefficients to calculate diophantine eq: ');
+  Readln(c, d, e);
 
-  result := diophantine_lib.factorial(number);
+  writeln('Factorial: ', iterative.factorial(number));
+  writeln('GCD: ', iterative.gcd(a, b));
+  iterative.diophantine(c, d, e, x, y);
+  writeln('X=', x, 'Y=', y);
 
-  writeln('Factorial: ', result);
+  writeln('Factorial: ', recursive.factorial(number));
+  writeln('GCD: ', recursive.gcd(a, b));
+  recursive.diophantine(c, d, e, x, y);
+  writeln('X=', x, 'Y=', y);
 
 end.
