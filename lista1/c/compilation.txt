@@ -1,0 +1,3 @@
+gcc -c iterative_diophantine_lib/recursive_diophantine_lib.c -o wrapper.o
+fpc test_wrapper.pas
+./test_wrapper
