@@ -1,25 +1,29 @@
 unit iterative;
+
+{$mode objfpc}
+
 interface
-function factorial(n: Integer): Integer;
-function gcd(a, b: Integer): Integer;
-procedure diophantine(a, b, c: Integer; var x, y: Integer);
+function factorial(n: Integer): Integer; cdecl; export;
+function gcd(a, b: Integer): Integer; cdecl; export;
+procedure diophantine(a, b, c: Integer; var x, y: LongInt); cdecl; export;
 
 implementation
-function factorial(n: Integer): Integer;
+function factorial(n: Integer): Integer; cdecl; export;
 var
-    result, temp: Integer;
+    res: Integer;
+    temp: Integer;
 begin
-    result := 1;
+    res := 1;
     temp := n; 
     while temp > 1 do
     begin
-        result := result * temp;
+        res := res * temp;
         temp := temp - 1;
     end;
-    factorial := result;
+    factorial := res;
 end;
 
-function gcd(a, b: Integer): Integer;
+function gcd(a, b: Integer): Integer; cdecl; export;
 begin
     if a = 0 then
         gcd := b
@@ -36,7 +40,7 @@ begin
     gcd := a;
 end;
 
-procedure diophantine(a, b, c: Integer; var x, y: Integer);
+procedure diophantine(a, b, c: Integer; var x, y: LongInt); cdecl; export;
 var
     X_prev, Y_next: Integer;
     X_next, Y_prev: Integer;

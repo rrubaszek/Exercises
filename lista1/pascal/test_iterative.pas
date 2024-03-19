@@ -1,11 +1,9 @@
-{ fpc test.pas }
-
-program test;
-uses iterative, recursive;
+program test_iterative;
+uses iterative;
 
 var
   number, a, b, c, d, e: Integer;
-  x, y: Integer;
+  x, y: LongInt;
 
 begin
 
@@ -19,11 +17,6 @@ begin
   writeln('Factorial: ', iterative.factorial(number));
   writeln('GCD: ', iterative.gcd(a, b));
   iterative.diophantine(c, d, e, x, y);
-  writeln('X=', x, 'Y=', y);
-
-  writeln('Factorial: ', recursive.factorial(number));
-  writeln('GCD: ', recursive.gcd(a, b));
-  recursive.diophantine(c, d, e, x, y);
   writeln('X=', x, 'Y=', y);
 
 end.

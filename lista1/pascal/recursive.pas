@@ -1,12 +1,14 @@
 unit recursive;
-interface
-function factorial(n: Integer): Integer;
-function gcd(a, b: Integer): Integer;
-procedure diophantine(a, b, c: Integer; var x, y: Integer);
 
+{$mode objfpc}
+
+interface
+function factorial(n: Integer): Integer; cdecl; export;
+function gcd(a, b: Integer): Integer; cdecl; export;
+procedure diophantine(a, b, c: Integer; var x, y: LongInt); cdecl; export;
 
 implementation
-function factorial(n: Integer): Integer;
+function factorial(n: Integer): Integer; cdecl; export;
 begin  
     if n > 1 then 
         factorial := n * factorial(n-1)
@@ -14,7 +16,7 @@ begin
         factorial := 1;
 end;
 
-function gcd(a, b: Integer): Integer;
+function gcd(a, b: Integer): Integer; cdecl; export;
 begin
     if b <> 0 then
         gcd := gcd(b, a mod b)
@@ -22,7 +24,7 @@ begin
         gcd := a;
 end;
 
-procedure diophantine(a, b, c: Integer; var x, y: Integer);  
+procedure diophantine(a, b, c: Integer; var x, y: LongInt); cdecl; export;
 var 
     temp: Integer;
 begin
