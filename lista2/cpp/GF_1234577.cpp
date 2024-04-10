@@ -142,32 +142,32 @@ GF_1234577& GF_1234577::operator-=(const GF_1234577& obj)
 
 bool GF_1234577::operator!=(const GF_1234577& obj)
 {
-    return (this->value != obj.value) ? true : false;
+    return this->value != obj.value;
 }
 
 bool GF_1234577::operator==(const GF_1234577& obj)
 {
-    return (this->value == obj.value) ? true : false;
+    return this->value == obj.value;
 }
 
 bool GF_1234577::operator<=(const GF_1234577& obj)
 {
-    return (this->value <= obj.value) ? true : false;
+    return this->value <= obj.value;
 }
 
 bool GF_1234577::operator>=(const GF_1234577& obj)
 {
-    return (this->value >= obj.value) ? true : false;
+    return this->value >= obj.value;
 }
 
 bool GF_1234577::operator<(const GF_1234577& obj)
 {
-    return (this->value < obj.value) ? true : false;
+    return this->value < obj.value;
 }
 
 bool GF_1234577::operator>(const GF_1234577& obj)
 {
-    return (this->value > obj.value) ? true : false;
+    return this->value > obj.value;
 }
 
 std::ostream& operator<<(std::ostream& out, const GF_1234577& obj)
