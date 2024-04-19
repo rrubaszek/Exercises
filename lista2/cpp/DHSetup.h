@@ -1,0 +1,18 @@
+#pragma once 
+#include <vector>
+
+template <class T>
+class DHSetup
+{
+private:
+    std::vector<int> primes;
+    T generator;
+
+public:
+    DHSetup();
+    T getGenerator();
+    T power(T a, unsigned long b);
+
+private:
+    std::vector<int> findPrimes(unsigned characteristic);
+};
