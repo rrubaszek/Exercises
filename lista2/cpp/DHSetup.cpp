@@ -14,7 +14,7 @@ DHSetup<T>::DHSetup()
     primes = findPrimes(p-1);
 
     unsigned long exponent;
-    unsigned ctr = 0;
+    unsigned ctr;
     int a;
     while(true)
     {
@@ -23,13 +23,14 @@ DHSetup<T>::DHSetup()
 
         num.setValue(a);
 
+        ctr = 0;
         for(int i : primes)
         {
             exponent = (p - 1) / i;
 
             if(power(num, exponent) != 1)
             {
-                ctr++;                
+                ctr++;             
             }
         }
 
@@ -37,6 +38,7 @@ DHSetup<T>::DHSetup()
         {
             break;
         }
+
     }
     generator = num;
 }
@@ -44,16 +46,15 @@ DHSetup<T>::DHSetup()
 template <class T>
 T DHSetup<T>::power(T a, unsigned long b)
 {
-    T result;
-    while(b > 0)
+    T result = 1;
+    while(b > 0) 
     {
-        if(b % 2 == 1)
+        if(b % 2 == 1) 
         {
-            result *= a;
+            result = (result*a);
         }
-
-        a *= a;
-        b /= 2;
+        a = (a * a);
+        b = b / 2; 
     }
 
     return result;

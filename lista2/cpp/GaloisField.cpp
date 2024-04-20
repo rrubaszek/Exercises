@@ -91,17 +91,40 @@ GaloisField GaloisField::operator-(const GaloisField& obj)
     return (result < 0) ? GaloisField(characteristic + result) : GaloisField(result);  
 }
 
+int GaloisField::fastMultiplitacion(int a, int b)
+{
+    if (a == 0 || b == 0) 
+    {
+        return 0;
+    }
+
+    if (a == 1) 
+    {
+        return b;
+    }
+
+    if (b == 1)
+    {
+        return a;
+    } 
+
+    int res = fastMultiplitacion(a, b / 2);
+
+    if ((b % 2) == 0) 
+    {
+        return (res + res) % characteristic;
+    } 
+    else 
+    {
+        return ((a % characteristic) + (res + res)) % characteristic;
+    }
+}
+
 GaloisField GaloisField::operator*(const GaloisField& obj)
 {
-    int temp = obj.value;
-
-    GaloisField res(0);
-    for(int i = 0; i < temp; i++)
-    {
-        res = (res + (*this));
-    }
+    int res = fastMultiplitacion(this->value, obj.value);
     
-    return res;
+    return GaloisField(res);
 }
 
 GaloisField GaloisField::operator/(const GaloisField& obj)

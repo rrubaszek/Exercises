@@ -35,9 +35,10 @@ public:
 
 private:
     GaloisField findInverse(unsigned value);
+    int fastMultiplitacion(int a, int b);
     unsigned gcdExtended(unsigned a, unsigned b, unsigned* x, unsigned* y);
 
 private:
     unsigned value;
-    unsigned static const characteristic = 1234577;
+    unsigned static const characteristic = 1234567891;
 };
