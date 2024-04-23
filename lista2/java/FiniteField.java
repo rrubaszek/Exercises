@@ -3,11 +3,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class FiniteField {
-
     private int value;
-
     private static final int characteristic = 1234577;
-
     public FiniteField() {
         this.value = 0;
     }
@@ -16,7 +13,7 @@ public class FiniteField {
         setValue(value);
     }
 
-    private void setValue(int value) {
+    public void setValue(int value) {
         while(value < 0) {
             value += characteristic;
         }
@@ -36,14 +33,17 @@ public class FiniteField {
         try {
             int[] res = new int[2];
             int g = gcdExtended(value, characteristic, res);
-
-            if (g != 1) {
+            if (g != 1)
+            {
                 throw new Exception();
-            } else {
-                return new FiniteField((res[0] % characteristic) % characteristic);
             }
-
-        } catch(Exception e) {
+            else
+            {
+                return new FiniteField(res[0]);
+            }
+        }
+        catch(Exception e)
+        {
             System.out.println("Inverse not found");
         }
 
@@ -77,14 +77,30 @@ public class FiniteField {
     }
 
     public FiniteField mult(final FiniteField obj) {
-        int temp = obj.value;
+        int res = fastMultiplication(this.value, obj.value);
+        return new FiniteField(res);
+    }
 
-        FiniteField res = new FiniteField();
-        for(int i = 0; i < temp; i++) {
-            res = add(this);
+    private int fastMultiplication(int a, int b) {
+        if (a == 0 || b == 0) {
+            return 0;
         }
 
-        return res;
+        if (a == 1) {
+            return b;
+        }
+
+        if (b == 1) {
+            return a;
+        }
+
+        int res = fastMultiplication(a, b / 2);
+
+        if ((b % 2) == 0) {
+            return (res + res) % characteristic;
+        } else {
+            return ((a % characteristic) + (res + res)) % characteristic;
+        }
     }
 
     public FiniteField div(final FiniteField obj) {
@@ -141,7 +157,6 @@ public class FiniteField {
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             FiniteField b = new FiniteField(Integer.parseInt(br.readLine()));
             a.assign(b);
-            
         } catch (IOException ex){
             System.out.println("IO exception");
         }

@@ -9,8 +9,8 @@ DHSetup<T>::DHSetup()
 {
     auto seed = std::mt19937(std::random_device()());
 
-    GaloisField num;
-    unsigned p = num.getCharacteristic();
+    T num;
+    unsigned p = num.getCharacteristic(); //C++ jest kurwa swietny XDDDD
     primes = findPrimes(p-1);
 
     unsigned long exponent;
@@ -30,7 +30,7 @@ DHSetup<T>::DHSetup()
 
             if(power(num, exponent) != 1)
             {
-                ctr++;             
+                ctr++;          
             }
         }
 
