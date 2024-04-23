@@ -31,11 +31,11 @@ public:
     bool operator >= (const GaloisField& obj);
     bool operator <= (const GaloisField& obj);
     bool operator > (const GaloisField& obj);
-    bool operator < (const GaloisField& obj);
+    bool operator < (const GaloisField& obj);    
 
 private:
     GaloisField findInverse(unsigned value);
-    int fastMultiplitacion(int a, int b);
+    int fastMultiplication(int a, int b);
     unsigned gcdExtended(unsigned a, unsigned b, unsigned* x, unsigned* y);
 
 private:

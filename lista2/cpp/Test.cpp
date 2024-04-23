@@ -14,8 +14,8 @@ int main()
     User<GaloisField> user1(setup);
     User<GaloisField> user2(setup);
 
-    GaloisField message1(50);
-    GaloisField message2(100);
+    GaloisField message1(123457);
+    GaloisField message2(4567899);
 
     user1.setKey(user2.getPublicKey());
     user2.setKey(user1.getPublicKey());
