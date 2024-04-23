@@ -51,7 +51,7 @@ GaloisField GaloisField::findInverse(unsigned value)
         }
         else 
         {
-            return GaloisField((x % characteristic) % characteristic);
+            return GaloisField(x);
         }
     }
     catch(const std::exception& e)
@@ -91,7 +91,7 @@ GaloisField GaloisField::operator-(const GaloisField& obj)
     return (result < 0) ? GaloisField(characteristic + result) : GaloisField(result);  
 }
 
-int GaloisField::fastMultiplitacion(int a, int b)
+int GaloisField::fastMultiplication(int a, int b)
 {
     if (a == 0 || b == 0) 
     {
@@ -108,7 +108,7 @@ int GaloisField::fastMultiplitacion(int a, int b)
         return a;
     } 
 
-    int res = fastMultiplitacion(a, b / 2);
+    int res = fastMultiplication(a, b / 2);
 
     if ((b % 2) == 0) 
     {
@@ -122,7 +122,7 @@ int GaloisField::fastMultiplitacion(int a, int b)
 
 GaloisField GaloisField::operator*(const GaloisField& obj)
 {
-    int res = fastMultiplitacion(this->value, obj.value);
+    int res = fastMultiplication(this->value, obj.value);
     
     return GaloisField(res);
 }
