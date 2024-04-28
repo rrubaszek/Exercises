@@ -3,9 +3,9 @@
 #include "GaloisField.h"
 #include "User.h"
 #include "User.cpp"
+
 #include <iostream>
 #include <vector>
-
 
 int main()
 {

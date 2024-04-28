@@ -1,5 +1,6 @@
 #pragma once 
 #include <vector>
+#include "GaloisField.h"
 
 template <class T>
 class DHSetup

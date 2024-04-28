@@ -1,15 +1,17 @@
 #include "DHSetup.h"
 #include "GaloisField.h"
+
 #include <vector>
 #include <iostream>
 #include <random>
 
-template <class T> 
+template <class T>
 DHSetup<T>::DHSetup()
 {
     auto seed = std::mt19937(std::random_device()());
 
     T num;
+    
     unsigned p = num.getCharacteristic(); //C++ jest kurwa swietny XDDDD
     primes = findPrimes(p-1);
 

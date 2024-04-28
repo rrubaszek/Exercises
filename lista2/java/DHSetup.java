@@ -1,16 +1,17 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Supplier;
 
-public class DHSetup<T extends FiniteField> {
+public class DHSetup<T extends Field> {
+    private final T generator;
+    Supplier<T> cons;
+    public DHSetup(Supplier<T> cons) {
+        this.cons = cons;
 
-    private List<Integer> primes;
-
-    private T generator;
-    
-    public DHSetup(T num) {
+        T num = cons.get();
         int p = num.getCharacteristic();
-        primes = findPrimes(p-1);
+        List<Integer> primes = findPrimes(p - 1);
 
         long exponent;
         int ctr;
@@ -44,17 +45,16 @@ public class DHSetup<T extends FiniteField> {
 
         for(int i = 3; i < Math.sqrt(num); i += 2) {
 
-            if(num % i == 0) {
+            if (num % i == 0) {
                 primes.add(i);
             }
         }
-
         return primes;
     }
 
     public T power(T a, long b) {
-        T res = a;
-        res.div(a);
+        T res = cons.get();
+        res.setValue(1);
         while(b > 0) {
             if(b % 2 == 1) {
                 res.assign(res.mult(a));
@@ -62,7 +62,10 @@ public class DHSetup<T extends FiniteField> {
             a.assign(a.mult(a));
             b = b / 2;
         }
-        //res.div(a);
         return res;
+    }
+
+    public T getGenerator() {
+        return generator;
     }
 }

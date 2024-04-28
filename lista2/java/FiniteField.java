@@ -2,9 +2,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class FiniteField {
+public class FiniteField extends Field {
     private int value;
-    private static final int characteristic = 1234577;
+    private static final int characteristic = 1234567891;
     public FiniteField() {
         this.value = 0;
     }
@@ -30,15 +30,13 @@ public class FiniteField {
     }
 
     private FiniteField findInverse(int value) {
+        int[] res = new int[2];
         try {
-            int[] res = new int[2];
             int g = gcdExtended(value, characteristic, res);
-            if (g != 1)
-            {
+            if (g != 1) {
                 throw new Exception();
             }
-            else
-            {
+            else {
                 return new FiniteField(res[0]);
             }
         }
@@ -57,102 +55,99 @@ public class FiniteField {
             return b;
         }
 
-        int[] res1 = new int[2];
-        int gcd = gcdExtended(b % a, a, res1);
+        // To store results of recursive call
+        int gcd = gcdExtended(b % a, a, res);
+        int x1 = res[0];
+        int y1 = res[1];
 
-        res1[0] = res[0] - (b / a) * res[1];
-        res1[1] = res[0];
+        // Update x and y using results of recursive
+        // call
+        int tmp = b / a;
+        res[0] = y1 - tmp * x1;
+        res[1] = x1;
 
         return gcd;
     }
 
-    public FiniteField add(final FiniteField obj) {
-        return new FiniteField(this.value + obj.value);
+    public Field add(final Field obj) {
+        return new FiniteField(this.value + obj.getValue());
     }
 
-    public FiniteField sub(final FiniteField obj) {
-        int result = this.value - obj.value;
-
-        return (result < 0) ? new FiniteField(characteristic + result) : new FiniteField(result);
+    public Field sub(final Field obj) {
+        int result = this.value - obj.getValue();
+        return new FiniteField(result);
     }
 
-    public FiniteField mult(final FiniteField obj) {
-        int res = fastMultiplication(this.value, obj.value);
+    public Field mult(final Field obj) {
+        int res = fastMultiplication(this.value, obj.getValue());
         return new FiniteField(res);
     }
 
     private int fastMultiplication(int a, int b) {
-        if (a == 0 || b == 0) {
-            return 0;
-        }
+        int res = 0;
 
-        if (a == 1) {
-            return b;
-        }
+        a %= characteristic;
+        while (b > 0) {
 
-        if (b == 1) {
-            return a;
+            if ((b & 1) > 0) {
+                res = (res + a) % characteristic;
+            }
+            a = (2 * a) % characteristic;
+            b >>= 1;
         }
-
-        int res = fastMultiplication(a, b / 2);
-
-        if ((b % 2) == 0) {
-            return (res + res) % characteristic;
-        } else {
-            return ((a % characteristic) + (res + res)) % characteristic;
-        }
+        return res;
     }
 
-    public FiniteField div(final FiniteField obj) {
-        FiniteField res = findInverse(obj.value);
-        return mult(res);
+    public Field div(final Field obj) {
+        FiniteField inv = findInverse(obj.getValue());
+        return mult(inv);
     }
 
-    void assign(final FiniteField obj) {
-        this.value = obj.value;
+    public void assign(final Field obj) {
+        this.value = obj.getValue();
     }
 
-    void multAndAssign(final FiniteField obj) {
+    public void multAndAssign(final Field obj) {
         assign(mult(obj));
     }
 
-    void divAndAssign(final FiniteField obj) {
+    public void divAndAssign(final Field obj) {
         assign(div(obj));
     }
 
-    void addAndAssign(final FiniteField obj) {
+    public void addAndAssign(final Field obj) {
         assign(add(obj));
     }
 
-    void subAndAssign(final FiniteField obj) {
+    public void subAndAssign(final Field obj) {
         assign(sub(obj));
     }
 
-    boolean ifNotEqual(final FiniteField b) {
-        return this.value != b.value;
+    public boolean ifNotEqual(final Field b) {
+        return this.value != b.getValue();
     }
 
-    boolean ifEqual(final FiniteField b) {
-        return this.value == b.value;
+    public boolean ifEqual(final Field b) {
+        return this.value == b.getValue();
     }
 
-    boolean ifLessEqual(final FiniteField b) {
-        return this.value <= b.value;
+    public boolean ifLessEqual(final Field b) {
+        return this.value <= b.getValue();
     }
 
-    boolean ifGreaterEqual(final FiniteField b) {
-        return this.value >= b.value;
+    public boolean ifGreaterEqual(final Field b) {
+        return this.value >= b.getValue();
     }
 
-    boolean ifLess(final FiniteField b) {
-        return this.value < b.value;
+    public boolean ifLess(final Field b) {
+        return this.value < b.getValue();
     }
 
-    boolean ifGreater(final FiniteField b) {
-        return this.value > b.value;
+    public boolean ifGreater(final Field b) {
+        return this.value > b.getValue();
     }
 
-    public static void stdinRead(FiniteField a)  {
+    public static void stdinRead(Field a)  {
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             FiniteField b = new FiniteField(Integer.parseInt(br.readLine()));
@@ -161,7 +156,6 @@ public class FiniteField {
             System.out.println("IO exception");
         }
     }
-
     @Override
     public String toString() {
         return String.valueOf(value);

@@ -70,7 +70,7 @@ unsigned GaloisField::gcdExtended(unsigned a, unsigned b, unsigned* x, unsigned*
         return b;
     }
  
-    unsigned x1, y1;
+    unsigned x1 = 1, y1 = 1;
     unsigned gcd = gcdExtended(b % a, a, &x1, &y1);
 
     *x = y1 - (b / a) * x1;
