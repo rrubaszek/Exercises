@@ -36,15 +36,19 @@ class FiniteField:
             if g != 1:
                 raise gfException("GF field exception")
             else:
-                return FiniteField((x % FiniteField.characteristic) % FiniteField.characteristic)
+                return FiniteField(x)
         except gfException as e:
             print(e)
 
         return FiniteField()
 
     def assign(self, obj):
-        self.value = obj.value
-        return self
+        if isinstance(obj, FiniteField):
+            return self.value == obj.value
+        elif isinstance(obj, int):
+            return self.value == obj
+        else:
+            return False
 
     #use >> in c style
     def __rshift__(self, in_stream):
@@ -64,13 +68,33 @@ class FiniteField:
 
     def __sub__(self, obj):
         result = self.value - obj.value
-        return FiniteField(characteristic + result) if result < 0 else FiniteField(result)
+        return FiniteField(FiniteField.characteristic + result) if result < 0 else FiniteField(result)
+    
+    @staticmethod
+    def fastMultiplication(a, b):
+        if a == 0 or b == 0:
+            return 0
+        elif a == 1:
+            return b
+        elif b == 1:
+            return a
+
+        res = FiniteField.fastMultiplication(a, b // 2)
+
+        if b % 2 == 0:
+            return (res + res) % FiniteField.characteristic
+        else:
+            return ((a % FiniteField.characteristic) + (res + res)) % FiniteField.characteristic
 
     def __mul__(self, obj):
-        res = FiniteField(0)
-        for _ in range(obj.value):
-            res += self
-        return res
+        if isinstance(obj, FiniteField):
+            res = FiniteField.fastMultiplication(self.value, obj.value)
+            return FiniteField(res)
+        elif isinstance(obj, int):
+            res = FiniteField.fastMultiplication(self.value, obj)
+            return FiniteField(res)
+        else:
+            return NotImplemented
 
     def __truediv__(self, obj):
         res = self.findInverse(obj.value)
@@ -86,11 +110,7 @@ class FiniteField:
         return self
 
     def __imul__(self, obj):
-        temp = obj.value
-        res = FiniteField(0)
-        for _ in range(temp):
-            res += self
-        self.setValue(res.value)
+        self = self * obj
         return self
 
     def __itruediv__(self, obj):
@@ -98,20 +118,50 @@ class FiniteField:
         self *= res
         return self
 
-    def __eq__(self, obj):
-        return self.value == obj.value
+    def __eq__(self, other):
+        if isinstance(other, FiniteField):
+            return self.value == other.value
+        elif isinstance(other, int):
+            return self.value == other
+        else:
+            return NotImplemented
 
-    def __ne__(self, obj):
-        return not self == obj
+    def __ne__(self, other):
+        if isinstance(other, FiniteField):
+            return self.value != other.value
+        elif isinstance(other, int):
+            return self.value != other
+        else:
+            return NotImplemented
 
-    def __le__(self, obj):
-        return self.value <= obj.value
+    def __le__(self, other):
+        if isinstance(other, FiniteField):
+            return self.value < other.value
+        elif isinstance(other, int):
+            return self.value < other
+        else:
+            return NotImplemented
 
-    def __ge__(self, obj):
-        return self.value >= obj.value
+    def __ge__(self, other):
+        if isinstance(other, FiniteField):
+            return self.value > other.value
+        elif isinstance(other, int):
+            return self.value > other
+        else:
+            return NotImplemented
 
-    def __lt__(self, obj):
-        return self.value < obj.value
+    def __lt__(self, other):
+        if isinstance(other, FiniteField):
+            return self.value <= other.value
+        elif isinstance(other, int):
+            return self.value <= other
+        else:
+            return NotImplemented
 
-    def __gt__(self, obj):
-        return self.value > obj.value
+    def __gt__(self, other):
+        if isinstance(other, FiniteField):
+            return self.value >= other.value
+        elif isinstance(other, int):
+            return self.value >= other
+        else:
+            return NotImplemented
