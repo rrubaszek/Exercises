@@ -37,7 +37,8 @@ public class FiniteField extends Field {
                 throw new Exception();
             }
             else {
-                return new FiniteField(res[0]);
+                int inverse = (res[0] % characteristic + characteristic) % characteristic;
+                return new FiniteField(inverse);
             }
         }
         catch(Exception e)
@@ -84,27 +85,44 @@ public class FiniteField extends Field {
     }
 
     private int fastMultiplication(int a, int b) {
-        int res = 0;
-
-        a %= characteristic;
-        while (b > 0) {
-
-            if ((b & 1) > 0) {
-                res = (res + a) % characteristic;
-            }
-            a = (2 * a) % characteristic;
-            b >>= 1;
+        if (a == 0 || b == 0)
+        {
+            return 0;
         }
-        return res;
+
+        if (a == 1)
+        {
+            return b;
+        }
+
+        if (b == 1)
+        {
+            return a;
+        }
+
+        int res = fastMultiplication(a, b / 2);
+
+        if ((b % 2) == 0)
+        {
+            return (res + res) % characteristic;
+        }
+        else
+        {
+            return ((a % characteristic) + (res + res)) % characteristic;
+        }
     }
 
     public Field div(final Field obj) {
         FiniteField inv = findInverse(obj.getValue());
-        return mult(inv);
+        return inv.mult(this);
     }
 
-    public void assign(final Field obj) {
-        this.value = obj.getValue();
+    public void assign(final Object obj) {
+        if (obj instanceof FiniteField other) {
+            this.setValue(other.value);
+        } else if (obj instanceof Integer) {
+           this.setValue((int)obj);
+        }
     }
 
     public void multAndAssign(final Field obj) {
@@ -123,28 +141,58 @@ public class FiniteField extends Field {
         assign(sub(obj));
     }
 
-    public boolean ifNotEqual(final Field b) {
-        return this.value != b.getValue();
+    public boolean ifNotEqual(final Object obj) {
+        if (obj instanceof FiniteField other) {
+            return this.value != other.value;
+        } else if (obj instanceof Integer) {
+            return this.value != (int) obj;
+        }
+        return false;
     }
 
-    public boolean ifEqual(final Field b) {
-        return this.value == b.getValue();
+    public boolean ifEqual(final Object obj) {
+        if (obj instanceof FiniteField other) {
+            return this.value == other.value;
+        } else if (obj instanceof Integer) {
+            return this.value == (int) obj;
+        }
+        return false;
     }
 
-    public boolean ifLessEqual(final Field b) {
-        return this.value <= b.getValue();
+    public boolean ifLessEqual(final Object obj) {
+        if (obj instanceof FiniteField other) {
+            return this.value <= other.value;
+        } else if (obj instanceof Integer) {
+            return this.value <= (int) obj;
+        }
+        return false;
     }
 
-    public boolean ifGreaterEqual(final Field b) {
-        return this.value >= b.getValue();
+    public boolean ifGreaterEqual(final Object obj) {
+            if (obj instanceof FiniteField other) {
+                return this.value >= other.value;
+            } else if (obj instanceof Integer) {
+                return this.value >= (int) obj;
+            }
+            return false;
     }
 
-    public boolean ifLess(final Field b) {
-        return this.value < b.getValue();
+    public boolean ifLess(final Object obj) {
+        if (obj instanceof FiniteField other) {
+            return this.value < other.value;
+        } else if (obj instanceof Integer) {
+            return this.value < (int) obj;
+        }
+        return false;
     }
 
-    public boolean ifGreater(final Field b) {
-        return this.value > b.getValue();
+    public boolean ifGreater(final Object obj) {
+        if (obj instanceof FiniteField other) {
+            return this.value > other.value;
+        } else if (obj instanceof Integer) {
+            return this.value > (int) obj;
+        }
+        return false;
     }
 
     public static void stdinRead(Field a)  {

@@ -1,6 +1,3 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 
 public abstract class Field {
     public abstract void setValue(int value);
@@ -10,15 +7,15 @@ public abstract class Field {
     public abstract Field sub(final Field obj);
     public abstract Field mult(final Field obj);
     public abstract Field div(final Field obj);
-    public abstract void assign(final Field obj);
+    public abstract void assign(final Object obj);
     public abstract void multAndAssign(final Field obj);
     public abstract void divAndAssign(final Field obj);
     public abstract void addAndAssign(final Field obj);
     public abstract void subAndAssign(final Field obj);
-    public abstract boolean ifNotEqual(final Field b);
-    public abstract boolean ifEqual(final Field b);
-    public abstract boolean ifLessEqual(final Field b);
-    public abstract boolean ifGreaterEqual(final Field b);
-    public abstract boolean ifLess(final Field b);
-    public abstract boolean ifGreater(final Field b);
+    public abstract boolean ifNotEqual(final Object b);
+    public abstract boolean ifEqual(final Object b);
+    public abstract boolean ifLessEqual(final Object b);
+    public abstract boolean ifGreaterEqual(final Object b);
+    public abstract boolean ifLess(final Object b);
+    public abstract boolean ifGreater(final Object b);
 }

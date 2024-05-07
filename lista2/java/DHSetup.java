@@ -16,22 +16,19 @@ public class DHSetup<T extends Field> {
         long exponent;
         int ctr;
         Random random = new Random();
-        while(true) {
-            num.setValue(random.nextInt(p-1));
+        do {
+            num.setValue(random.nextInt(p - 1));
 
             ctr = 0;
-            for(int i : primes) {
-                exponent = (p-1)/i;
+            for (int i : primes) {
+                exponent = (p - 1) / i;
 
-                if(power(num, exponent).ifNotEqual(new FiniteField(1))) {
+                if (power(num, exponent).ifNotEqual(1)) {
                     ctr++;
                 }
             }
 
-            if(ctr == primes.size()) {
-                break;
-            }
-        }
+        } while (ctr != primes.size());
 
         generator = num;
     }

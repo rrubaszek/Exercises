@@ -3,7 +3,7 @@ import java.util.Random;
 public class User<T extends Field>{
     private DHSetup<T> setup;
     private int secret;
-    private T key;
+    public T key;
     public User(DHSetup<T> setup) {
         this.setup = setup;
 
@@ -16,7 +16,7 @@ public class User<T extends Field>{
     }
 
     public void setKey(T a) {
-        key = setup.power(a, secret);
+        this.key = setup.power(a, secret);
     }
 
     public T encrypt(T m) {
