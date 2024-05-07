@@ -14,21 +14,26 @@ int main()
     User<GaloisField> user1(setup);
     User<GaloisField> user2(setup);
 
-    GaloisField message1(123457);
-    GaloisField message2(4567899);
+    GaloisField message1;
+    GaloisField message2;
+
+    std::cout << "user1 message: ";
+    std::cin >> message1;
+    std::cout << "user2 message: ";
+    std::cin >> message2;
 
     user1.setKey(user2.getPublicKey());
     user2.setKey(user1.getPublicKey());
 
     GaloisField encrypted1 = user1.encrypt(message1);
     GaloisField encrypted2 = user2.encrypt(message2);
-    std::cout << message1 << "\n";
-    std::cout << message2 << "\n";
+    std::cout << "encrypted: " << encrypted1 << "\n";
+    std::cout << "encrypted: " << encrypted2 << "\n";
 
     GaloisField decrypted1 = user2.decrypt(encrypted1);
     GaloisField decrypted2 = user1.decrypt(encrypted2);
-    std::cout << decrypted1 << "\n";
-    std::cout << decrypted2 << "\n";
+    std::cout << "decrypted: " << decrypted1 << "\n";
+    std::cout << "decrypted: " << decrypted2 << "\n";
 
     return 0;
 }
