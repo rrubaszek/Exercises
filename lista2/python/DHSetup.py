@@ -1,9 +1,10 @@
 import random
 import math
-from FiniteField import FiniteField
+from typing import TypeVar, Generic
 
-class DHSetup:
-    def __init__(self, num):
+T = TypeVar('T')
+class DHSetup(Generic[T]):
+    def __init__(self, num: T):
         self.num = num
         self.primes = None
         self.generator = None
@@ -11,7 +12,7 @@ class DHSetup:
         seed = random.randint(0, 2**32 - 1)
         p = self.num.characteristic
 
-        self.primes = self.find_primes(p - 1)  
+        self.primes = self.sieve_of_eratosthenes(p-1)
 
         exponent = 0
         ctr = 0
@@ -33,18 +34,18 @@ class DHSetup:
 
         self.generator = self.num 
 
-    def find_primes(self, characteristic):
-        primes = []
+    def sieve_of_eratosthenes(self, limit):
+        primes = [True] * (limit + 1)
+        primes[0] = primes[1] = False
+    
+        for i in range(2, int(limit ** 0.5) + 1):
+            if primes[i]:
+                for j in range(i * i, limit + 1, i):
+                    primes[j] = False
+                
+        return [i for i in range(2, limit + 1) if primes[i]]
 
-        if characteristic % 2 == 0:
-            primes.append(2)
-        for i in range(3, int(math.sqrt(characteristic)) + 1, 2):
-            if characteristic % i == 0:
-                primes.append(i)
-
-        return primes
-
-    def power(self, a, b):
+    def power(self, a: T, b) -> T:
         result = a / a
  
         while b > 0:

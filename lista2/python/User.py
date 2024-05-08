@@ -1,8 +1,8 @@
 import random
-from DHSetup import DHSetup
-from FiniteField import FiniteField
+from typing import TypeVar, Generic
 
-class User:
+T = TypeVar('T')
+class User(Generic[T]):
     def __init__(self, setup):
         self.setup = setup
 
@@ -10,14 +10,14 @@ class User:
         distribution = random.randint(1, 50)  
         self.secret = distribution 
 
-    def get_public_key(self):
+    def get_public_key(self) -> T:
         generator = self.setup.generator
         return self.setup.power(generator, self.secret)
 
-    def set_key(self, a):
+    def set_key(self, a: T):
         self.key = self.setup.power(a, self.secret)
 
-    def decrypt(self, c):
+    def decrypt(self, c: T) -> T:
         try:
             if self.key != 0:
                 return c / self.key
@@ -25,10 +25,8 @@ class User:
                 raise RuntimeError("Key has not been set up!")
         except RuntimeError as e:
             print(e)
-
-        return 0
     
-    def encrypt(self, m):
+    def encrypt(self, m: T) -> T:
         try:
             if self.key != 0:
                 return m * self.key
@@ -36,5 +34,3 @@ class User:
                 raise RuntimeError("Key has not been set up!")
         except RuntimeError as e:
             print(e)
-
-        return 0
