@@ -11,9 +11,13 @@ DHSetup<T>::DHSetup()
     auto seed = std::mt19937(std::random_device()());
 
     T num;
+
+    std::cout << "Initializing...\n";
     
     unsigned p = num.getCharacteristic(); //C++ jest kurwa swietny XDDDD
     primes = findPrimes(p-1);
+
+    std::cout << "Done\n";
 
     unsigned long exponent;
     unsigned ctr;
@@ -71,19 +75,34 @@ T DHSetup<T>::getGenerator()
 template <class T>
 std::vector<int> DHSetup<T>::findPrimes(unsigned characteristic)
 {
-    std::vector<int> primes;
+    std::vector<int> res;
+    unsigned n = characteristic - 1;
 
-    if(characteristic % 2 == 0)
+    if(n % 2 == 0)
     {
-        primes.push_back(2);
-    }
-    for(int i = 3; i < sqrt(characteristic); i += 2)
-    {
-        if(characteristic % i == 0)
+        res.push_back(2);
+        while(n % 2 == 0)
         {
-            primes.push_back(i);
+            n /= 2;
         }
     }
 
-    return primes;
+    for(int i = 3; i <= sqrt(n); i += 2)
+    {
+        if(n % i == 0)
+        {
+            res.push_back(i);
+            while(n % i == 0)
+            {
+                n /= i;
+            }
+        }
+    }
+
+    if(n > 2)
+    {
+        res.push_back(n);
+    }
+
+    return res;
 }
