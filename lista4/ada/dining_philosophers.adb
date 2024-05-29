@@ -58,7 +58,12 @@ procedure Dining_Philosophers is
 
 begin
     -- Instantiate and start Philosopher tasks
+    -- One philosopher starts with left fork, not right, what prevents deadlock
     for I in 1..N loop
-        Philosophers(I) := new Philosopher (ID => I, First => Forks(I)'Access, Second => Forks((I mod N) + 1)'Access);
+        if I = N then
+            Philosophers(I) := new Philosopher (ID => I, First => Forks(1)'Access, Second => Forks(I)'Access);
+        else
+            Philosophers(I) := new Philosopher (ID => I, First => Forks(I)'Access, Second => Forks(I+1)'Access);
+        end if;
     end loop;
 end Dining_Philosophers;
