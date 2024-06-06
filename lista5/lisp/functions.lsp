@@ -23,12 +23,12 @@
                 (iter (- n 1) (nextRow currentRow) (cons currentRow result)))))
         (iter rows (list 1) nil)))
 
-(defun merge (xs ys)
+(defun _merge (xs ys)
     (cond ((null xs) ys)
         ((null ys) xs)
         ((<= (car xs) (car ys)) 
-            (cons (car xs) (merge (cdr xs) ys)))
-        (t (cons (car ys) (merge xs (cdr ys))))))
+            (cons (car xs) (_merge (cdr xs) ys)))
+        (t (cons (car ys) (_merge xs (cdr ys))))))
 
 (defun mergeSort (xs)
     (if (or (null xs) (null (cdr xs)))
@@ -37,7 +37,17 @@
             (half (floor (/ len 2)))
             (left (subseq xs 0 half))
             (right (subseq xs half)))
-            (merge (mergeSort left) (mergeSort right)))))
+            (_merge (mergeSort left) (mergeSort right)))))
+
+(defun extendedGcd (a b)
+    (if (zerop b)
+        (values a 1 0)
+    (multiple-value-bind (g x1 y1) (extendedGcd b (mod a b))
+    (values g y1 (- x1 (* (floor a b) y1))))))
+
+(defun de (a b)
+    (multiple-value-bind (g x y) (extendedGcd a b)
+    (list g x y)))
 
 (defun factorize (d n)
     (if (> (* d d) n)
@@ -58,33 +68,39 @@
               (t (countCoprimes (+ k 1) result)))))
     (countCoprimes 1 0)))
 
+(defun removeDuplicates (factors)
+    (remove-duplicates factors :test #'=))
+
 (defun totient2 (n)
     (if (<= n 1)
         0
-        (let* ((factors (primeFactors n))
-            (product (reduce #'* factors :key #'(lambda (x) (- 1 (/ 1.0 x))))))
-        (round (* n product)))))
+    (let ((factors (removeDuplicates(primeFactors n))))
+        (round (* n (reduce #'* (mapcar (lambda (p) (- 1 (/ 1.0 p))) factors)))))))
 
-(defun sieve (list)
-    (if (null list)
-        nil
-    (let ((p (car list)))
-        (cons p (sieve (remove-if #'(lambda (x) (zerop (mod x p))) (cdr list)))))))
+(defun isPrime (n)
+    (cond ((< n 2) nil) 
+        ((= n 2) t)   
+        ((evenp n) nil)         
+        (t
+        (labels ((primeP (d)
+                    (or (> d (isqrt n))
+                        (and (not (zerop (mod n d)))
+                             (primeP (+ d 2))))))
+           (primeP 3)))))
 
-(defun generateOdds (n)
-    (if (<= n 1)
+(defun range (start end)
+    (if (< start end)
         nil
-    (cons n (generateOdds (- n 1)))))
+    (cons start (range (1- start) end))))
 
-(defun primes (n)
-    (if (< n 2)
-        nil
-    (sieve (generateOdds n))))
+(defun sieve (n)
+    (remove-if-not #'isPrime (range n 1)))
 
 (print (binomial 10 5))
 (print (binomial2 10 5))
 (print (mergeSort '(5 2 9 1 5 6 10 4 13 3)))
-(print (primeFactors 50))
-(print (totient 5))
-(print (totient2 5))
-(print (sieve '(1 2 3 4 5 6 7 8 9)))
+(print (de 10 3))
+(print (primeFactors 20))
+(print (totient 20))
+(print (totient2 20))
+(print (sieve 50))
