@@ -14,7 +14,7 @@ DHSetup<T>::DHSetup()
 
     std::cout << "Initializing...\n";
     
-    unsigned p = num.getCharacteristic(); //C++ jest kurwa swietny XDDDD
+    unsigned p = num.getCharacteristic();
     primes = findPrimes(p-1);
 
     std::cout << "Done\n";
@@ -75,6 +75,22 @@ T DHSetup<T>::getGenerator()
 template <class T>
 std::vector<int> DHSetup<T>::findPrimes(unsigned characteristic)
 {
+    
+    // std::vector<bool> prime(characteristic + 1, true);
+    // for (int p = characteristic / 2; p * p <= characteristic; p++) {
+    //     if (prime[p] == true) {
+    //         for (int i = p * p; i <= characteristic; i += p)
+    //             prime[i] = false;
+    //     }
+    // }
+ 
+    // std::vector<int> primes;
+    // // Print all prime numbers
+    // for (int p = characteristic / 2; p <= characteristic; p++)
+    //     if (prime[p])
+    //         primes.push_back(p);
+
+    // return primes;
     std::vector<int> res;
     unsigned n = characteristic - 1;
 

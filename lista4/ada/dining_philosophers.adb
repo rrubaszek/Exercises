@@ -3,7 +3,7 @@ with Ada.Text_IO;                       use Ada.Text_IO;
 
 procedure Dining_Philosophers is
 
-    N : constant Positive := 5;                 -- Number of philosophers
+    N : constant Positive := 3;                 -- Number of philosophers
 
     protected type Fork is                      -- Represents a mutex, deadlocks will be prevented by ordering forks
         entry Grab;
@@ -22,7 +22,7 @@ procedure Dining_Philosophers is
         end Put_Down;
     end Fork;
 
-    Number_of_Meals : constant := 20;          -- Each philosopher eats 20 times and then dies
+    Number_of_Meals : constant := 5;          -- Each philosopher eats 20 times and then dies
 
     -- First, Second are pointers to Fork, ensuring that those aren't null
     -- Represents a philosopher with given ID, loops on all actions
