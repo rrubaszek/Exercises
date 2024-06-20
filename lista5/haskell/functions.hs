@@ -84,7 +84,7 @@ main = do
     putStrLn $ "x: " ++ show x
     putStrLn $ "y: " ++ show y
 
-    print (primeFactors 50)
+    print (primeFactors 1234567890)
 
     print (primes 50)
 
